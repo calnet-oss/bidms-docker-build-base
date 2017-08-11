@@ -33,7 +33,7 @@ RUN set -x \
   && export DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
   && apt-get dist-upgrade -y \
-  && apt-get -y install openjdk-8-jdk-headless \
+  && apt-get -y install git openjdk-8-jdk-headless maven \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/*
 
