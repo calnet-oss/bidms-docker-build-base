@@ -41,3 +41,17 @@ RUN rm -rf /core
 
 COPY etc/container/ /etc/container/
 ENTRYPOINT ["/etc/container/build-entrypoint.sh", "interactive"]
+
+ARG TOMCAT_VOLUME=/var/lib/tomcat8
+ARG LOCAL_BIDMS_USER_FRONTEND_TOMCAT_PORT=8340
+ARG LOCAL_BIDMS_ADMIN_FRONTEND_TOMCAT_PORT=8341
+ARG LOCAL_BIDMS_RESTAPI_FRONTEND_TOMCAT_PORT=8342
+ARG LOCAL_BIDMS_BACKEND_TOMCAT_PORT=8343
+ARG LOCAL_AMQ_TOMCAT_PORT=8344
+
+RUN echo "TOMCAT_VOLUME=$TOMCAT_VOLUME" >> /etc/container/container.properties \
+  && echo "LOCAL_BIDMS_USER_FRONTEND_TOMCAT_PORT=$LOCAL_BIDMS_USER_FRONTEND_TOMCAT_PORT" >> /etc/container/container.properties \
+  && echo "LOCAL_BIDMS_ADMIN_FRONTEND_TOMCAT_PORT=$LOCAL_BIDMS_ADMIN_FRONTEND_TOMCAT_PORT" >> /etc/container/container.properties \
+  && echo "LOCAL_BIDMS_RESTAPI_FRONTEND_TOMCAT_PORT=$LOCAL_BIDMS_RESTAPI_FRONTEND_TOMCAT_PORT" >> /etc/container/container.properties \
+  && echo "LOCAL_BIDMS_BACKEND_TOMCAT_PORT=$LOCAL_BIDMS_BACKEND_TOMCAT_PORT" >> /etc/container/container.properties \
+  && echo "LOCAL_AMQ_TOMCAT_PORT=$LOCAL_AMQ_TOMCAT_PORT" >> /etc/container/container.properties
