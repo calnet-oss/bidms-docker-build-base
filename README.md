@@ -18,6 +18,24 @@ Dockerfile, is licensed under the [BSD two-clause license](LICENSE.txt).
 
 Copy `config.env.template` to `config.env` and edit to set config values.
 
+Create the `imageFiles/tmp_passwords/archiva_bidms-build_pw` file by doing
+the following:
+```
+cd imageFiles/tmp_passwords
+cp archiva_bidms-build_pw archiva_bidms-build_pw.template
+```
+
+Edit `archiva_bidms-build_pw` and set the password to the same password you
+used for the `imageFiles/tmp_passwords/archiva_bidms-build_pw` file when
+setting up the
+[bidms-docker-tomcat-dev](http://www.github.com/calnet-oss/bidms-docker-tomcat-dev)
+image.
+
+Make sure this file is only readable by the owner:
+```
+chmod 600 imageFiles/tmp_passwords/archiva_bidms-build_pw
+```
+
 This image depends on the the base BIDMS Debian Docker image from the
 [bidms-docker-debian-base](http://www.github.com/calnet-oss/bidms-docker-debian-base)
 project.  If you don't have that image built yet, you'll need that first.

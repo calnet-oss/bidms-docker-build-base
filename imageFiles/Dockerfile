@@ -37,7 +37,13 @@ RUN set -x \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/*
 
-RUN rm -rf /core
+COPY tmp_passwords/ /tmp/tmp_passwords/
+COPY root/ /root/
+RUN chmod 600 /root/.m2/settings.xml
+RUN sed -f /tmp/tmp_passwords/archiva_bidms-build_pw.sed \
+      -i /root/.m2/settings.xml
+
+RUN rm -rf /core /tmp/tmp_passwords
 
 COPY etc/container/ /etc/container/
 ENTRYPOINT ["/etc/container/build-entrypoint.sh", "interactive"]
