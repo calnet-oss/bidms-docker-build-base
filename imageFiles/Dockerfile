@@ -39,9 +39,15 @@ RUN set -x \
 
 COPY tmp_passwords/ /tmp/tmp_passwords/
 COPY root/ /root/
-RUN chmod 600 /root/.m2/settings.xml
-RUN sed -f /tmp/tmp_passwords/archiva_bidms-build_pw.sed \
-      -i /root/.m2/settings.xml
+RUN chmod 600 /root/.m2/settings.xml /root/.gradle/gradle.properties
+RUN /tmp/tmp_passwords/replaceBidmsBuildPw.sh /root/.m2/settings.xml \
+  && /tmp/tmp_passwords/replaceBidmsBuildPw.sh /root/.gradle/gradle.properties
+
+# Download Gradle wrapper ahead of time so each container run doesn't try to
+# re-download it (TODO: Would be better to see if we can get Gradle to look
+# at our Archiva server or something like that.)
+RUN mkdir -p /root/.gradle/wrapper/dists/gradle-4.0-bin/3p92xsbhik5vmig8i90n16yxc \
+  && wget "https://services.gradle.org/distributions/gradle-4.0-bin.zip" -O /root/.gradle/wrapper/dists/gradle-4.0-bin/3p92xsbhik5vmig8i90n16yxc/gradle-4.0-bin.zip
 
 RUN rm -rf /core /tmp/tmp_passwords
 
