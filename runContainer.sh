@@ -57,6 +57,14 @@ fi
 echo "Using config values from $CONFIG_FILE"
 . $CONFIG_FILE || check_exit
 
+if [ ! -z "$NETWORK" ]; then
+  echo "NETWORK=$NETWORK"
+  NETWORKPARAMS+="--network $NETWORK "
+else
+  echo "ERROR: Required NETWORK value missing from $CONFIG_FILE"
+  exit 1
+fi
+
 if [ ! -z "$LOCAL_BIDMS_USER_FRONTEND_TOMCAT_PORT" ]; then
   echo "LOCAL_BIDMS_USER_FRONTEND_TOMCAT_PORT=$LOCAL_BIDMS_USER_FRONTEND_TOMCAT_PORT"
 else
@@ -96,6 +104,7 @@ elif [ ! -z "$NO_INTERACTIVE" ]; then
 fi
 
 docker run $INTERACTIVE_PARAMS --rm --name "bidms-build-base" \
+  $NETWORKPARAMS \
   $* \
   bidms/build-base:latest \
   $ENTRYPOINT_ARGS || check_exit
