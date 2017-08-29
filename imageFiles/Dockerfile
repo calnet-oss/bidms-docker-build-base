@@ -44,10 +44,16 @@ RUN /tmp/tmp_passwords/replaceBidmsBuildPw.sh /root/.m2/settings.xml \
   && /tmp/tmp_passwords/replaceBidmsBuildPw.sh /root/.gradle/gradle.properties
 
 # Download Gradle wrapper ahead of time so each container run doesn't try to
-# re-download it (TODO: Would be better to see if we can get Gradle to look
-# at our Archiva server or something like that.)
+# re-download it (TODO: Would be better to use a squid/varnish caching proxy
+# server running within the docker network [perhaps on tomcat-dev].)
 RUN mkdir -p /root/.gradle/wrapper/dists/gradle-4.0-bin/3p92xsbhik5vmig8i90n16yxc \
   && wget "https://services.gradle.org/distributions/gradle-4.0-bin.zip" -O /root/.gradle/wrapper/dists/gradle-4.0-bin/3p92xsbhik5vmig8i90n16yxc/gradle-4.0-bin.zip
+
+RUN mkdir -p /root/.gradle/wrapper/dists/gradle-3.4.1-bin/71zneekfcxxu7l9p7nr2sc65s \
+  && wget "https://services.gradle.org/distributions/gradle-3.4.1-bin.zip" -O /root/.gradle/wrapper/dists/gradle-3.4.1-bin/71zneekfcxxu7l9p7nr2sc65s/gradle-3.4.1-bin.zip
+
+RUN mkdir -p /root/.gradle/wrapper/dists/gradle-3.4.1-all/c3ib5obfnqr0no9szq6qc17do \
+  && wget "https://services.gradle.org/distributions/gradle-3.4.1-all.zip" -O /root/.gradle/wrapper/dists/gradle-3.4.1-all/c3ib5obfnqr0no9szq6qc17do/gradle-3.4.1-all.zip
 
 RUN rm -rf /core /tmp/tmp_passwords
 
